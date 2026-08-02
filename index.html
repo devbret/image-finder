@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Finder</title>
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-title">
+        <h1>Image Finder</h1>
+      </div>
+      <div class="header-actions">
+        <div id="run-picker" class="run-picker" hidden>
+          <button
+            type="button"
+            id="run-picker-toggle"
+            class="ghost-button run-picker-toggle"
+            aria-haspopup="true"
+            aria-expanded="false"
+            title="Choose one run, or several to compare"
+          >
+            Choose runs&hellip;
+          </button>
+          <div id="run-picker-menu" class="run-picker-menu" hidden>
+            <div id="run-picker-list" class="run-picker-list"></div>
+            <p id="run-picker-note" class="run-picker-note" hidden></p>
+          </div>
+        </div>
+        <button
+          type="button"
+          id="theme-toggle"
+          class="ghost-button"
+          title="Cycle color theme"
+        >
+          Theme: Auto
+        </button>
+        <label class="file-button">
+          Load JSON file
+          <input
+            type="file"
+            id="file-input"
+            accept=".json,application/json"
+            hidden
+          />
+        </label>
+      </div>
+    </header>
+
+    <main>
+      <section id="drop-zone" class="drop-zone">
+        <p>
+          Drop an <code>image_results_*.json</code> file here, or click
+          <strong>Load JSON file</strong> above.
+        </p>
+      </section>
+
+      <section id="dashboard" hidden>
+        <div id="summary" class="summary"></div>
+        <div id="run-breakdown" class="run-breakdown" hidden></div>
+
+        <nav class="tabs" role="tablist" aria-label="Sections">
+          <button
+            type="button"
+            role="tab"
+            id="tab-results"
+            data-tab="results"
+            aria-selected="true"
+          >
+            Images
+          </button>
+          <button
+            type="button"
+            role="tab"
+            id="tab-overview"
+            data-tab="overview"
+            aria-selected="false"
+          >
+            Analytics
+          </button>
+          <button
+            type="button"
+            role="tab"
+            id="tab-errors"
+            data-tab="errors"
+            aria-selected="false"
+          >
+            Search errors
+            <span id="error-badge" class="tab-badge">0</span>
+          </button>
+        </nav>
+
+        <section
+          id="panel-results"
+          class="panel"
+          role="tabpanel"
+          aria-labelledby="tab-results"
+        >
+          <div class="controls">
+            <input
+              type="search"
+              id="search"
+              placeholder="Filter by title, URL or domain..."
+            />
+            <select id="run-filter" title="Filter by run" hidden></select>
+            <select id="query-filter" title="Filter by query"></select>
+            <select id="format-filter" title="Filter by image format">
+              <option value="all">All formats</option>
+            </select>
+            <select id="status-filter" title="Filter by status">
+              <option value="all">All statuses</option>
+              <option value="downloaded">Downloaded</option>
+              <option value="skipped">Skipped</option>
+              <option value="not_downloaded">Not downloaded</option>
+            </select>
+            <select id="sort" title="Sort results">
+              <option value="rank">Sort: search rank</option>
+              <option value="size">Sort: file size</option>
+              <option value="pixels">Sort: dimensions</option>
+              <option value="title">Sort: title A-Z</option>
+              <option value="domain">Sort: domain A-Z</option>
+            </select>
+          </div>
+
+          <p id="result-count" class="result-count"></p>
+          <ol id="results" class="gallery"></ol>
+          <div class="pager" id="pager" hidden>
+            <button type="button" id="show-more" class="ghost-button">
+              Show more
+            </button>
+            <button type="button" id="show-all" class="ghost-button">
+              Show all
+            </button>
+          </div>
+        </section>
+
+        <section
+          id="panel-overview"
+          class="panel"
+          role="tabpanel"
+          aria-labelledby="tab-overview"
+          hidden
+        >
+          <div id="chart-controls" class="controls chart-controls" hidden>
+            <select
+              id="chart-run-filter"
+              title="Scope analytics to a run"
+              hidden
+            ></select>
+            <select
+              id="chart-query-filter"
+              title="Scope analytics to a query"
+              hidden
+            ></select>
+          </div>
+          <div id="charts" class="charts"></div>
+        </section>
+
+        <section
+          id="panel-errors"
+          class="panel"
+          role="tabpanel"
+          aria-labelledby="tab-errors"
+          hidden
+        >
+          <div id="errors-content"></div>
+        </section>
+      </section>
+    </main>
+
+    <div
+      id="lightbox"
+      class="lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Image preview"
+      hidden
+    >
+      <button
+        type="button"
+        id="lightbox-close"
+        class="lightbox-close"
+        aria-label="Close preview"
+      >
+        &times;
+      </button>
+      <button
+        type="button"
+        id="lightbox-prev"
+        class="lightbox-nav lightbox-prev"
+        aria-label="Previous image"
+      >
+        &#8249;
+      </button>
+      <figure class="lightbox-figure">
+        <img id="lightbox-image" alt="" />
+        <figcaption id="lightbox-caption" class="lightbox-caption"></figcaption>
+      </figure>
+      <button
+        type="button"
+        id="lightbox-next"
+        class="lightbox-nav lightbox-next"
+        aria-label="Next image"
+      >
+        &#8250;
+      </button>
+    </div>
+
+    <div id="tooltip" class="tooltip" role="status" hidden></div>
+    <script src="vendor/d3.v7.min.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

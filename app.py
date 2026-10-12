@@ -621,7 +621,6 @@ def search_images(
 
     for page in range(1, pages + 1):
         params = {
-            "key": api_key,
             "cx": cx,
             "q": query,
             "searchType": "image",
@@ -642,7 +641,13 @@ def search_images(
         data: Optional[Dict[str, Any]] = None
 
         try:
-            response = session.get(api_endpoint, params=params, timeout=search_timeout)
+            response = session.get(
+                api_endpoint,
+                params=params,
+                headers={"X-goog-api-key": api_key},
+                timeout=search_timeout,
+                allow_redirects=False,
+            )
 
             try:
                 data = response.json()

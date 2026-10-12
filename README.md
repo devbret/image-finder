@@ -42,9 +42,9 @@ Below are the required software programs and instructions for installing and usi
 
 10. Run the program: `python3 app.py`
 
-11. Start a local web server: `python3 -m http.server 8000`
+11. Start a local web server that only accepts connections from this machine: `python3 -m http.server 8000 --bind 127.0.0.1`
 
-12. Visit the frontend UI in your browser: `http://localhost:8000`
+12. Visit the frontend UI in your browser: `http://127.0.0.1:8000`
 
 13. When finished, stop the web server: `Ctrl+C`
 
